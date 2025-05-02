@@ -1,5 +1,7 @@
 package firstspring.firstspringdemo.DTOs;
 
+import java.util.UUID;
+
 public class LocationUpdateDto {
     private String name;
     private String address;
@@ -7,17 +9,26 @@ public class LocationUpdateDto {
     private String state;
     private String country;
     private String postalCode;
+    private UUID locationId; // Optional, if you want to set it manually
 
     public LocationUpdateDto() {
     }
 
-    public LocationUpdateDto(String name, String address, String city, String state, String country, String postalCode) {
+    public LocationUpdateDto(String name, String address, String city, String state, String country, String postalCode, UUID locationId) {
+        this.locationId = locationId;
         this.name = name;
         this.address = address;
         this.city = city;
         this.state = state;
         this.country = country;
         this.postalCode = postalCode;
+    }
+
+    public UUID getLocationId() {
+        return locationId;
+    }
+    public void setLocationId(UUID locationId) {
+        this.locationId = locationId;
     }
 
     public String getName() {

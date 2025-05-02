@@ -1,7 +1,9 @@
 package firstspring.firstspringdemo.DTOs;
 
+import java.util.UUID;
+
 public class InventoryCreateDto {
-    private String productId;
+    private UUID productId;
     private String locationId;
     private Integer quantity;
     private Integer reorderPoint; // Optional
@@ -10,7 +12,7 @@ public class InventoryCreateDto {
     // Constructors (default, and with all fields)
     public InventoryCreateDto() {}
 
-    public InventoryCreateDto(String productId, String locationId, Integer quantity, Integer reorderPoint, Integer reorderQuantity) {
+    public InventoryCreateDto(UUID productId, String locationId, Integer quantity, Integer reorderPoint, Integer reorderQuantity) {
         this.productId = productId;
         this.locationId = locationId;
         this.quantity = quantity;
@@ -19,11 +21,11 @@ public class InventoryCreateDto {
     }
 
     // Getters and setters
-    public String getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(UUID productId) {
         this.productId = productId;
     }
 
