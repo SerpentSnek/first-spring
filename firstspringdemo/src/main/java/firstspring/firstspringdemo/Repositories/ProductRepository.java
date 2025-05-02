@@ -10,5 +10,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     // Custom query methods can be defined here if needed
     // For example, to find all products by a specific category:
     List<Product> findByCategory(String category);
+    List<Product> findByName(String name);
+    // find by id
     
 }
