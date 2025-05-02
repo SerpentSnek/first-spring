@@ -2,11 +2,10 @@ package firstspring.firstspringdemo.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import firstspring.firstspringdemo.Converters.InventoryConverter;
-import firstspring.firstspringdemo.DTOs.InventoryDTO;
-import firstspring.firstspringdemo.DTOs.InventoryUpdateDTO;
-import firstspring.firstspringdemo.Entities.Inventory;
-import firstspring.firstspringdemo.Services.InventoryService;
+import firstspring.firstspringdemo.DAL.InventoryService;
+import firstspring.firstspringdemo.DTOs.InventoryCreateDto;
+import firstspring.firstspringdemo.DTOs.InventoryDto;
+import firstspring.firstspringdemo.DTOs.InventoryUpdateDto;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,83 +35,58 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @Autowired
-    private InventoryConverter inventoryConverter;  // Inject the converter
-
-    // GET all inventory records
+    // GET /inventory: Get all inventory records
     @GetMapping
-    public ResponseEntity<List<InventoryDTO>> getAllInventory() {
-        List<Inventory> inventoryList = inventoryService.getAllInventory();
-        List<InventoryDTO> inventoryDTOList = inventoryList.stream()
-                .map(inventoryConverter::convertToDTO) // Use the converter
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(inventoryDTOList);
+    public ResponseEntity<List<InventoryDto>> getAllInventory() {
+        List<InventoryDto> inventoryList = inventoryService.getAllInventory();
+        return new ResponseEntity<>(inventoryList, HttpStatus.OK);
     }
 
-    // GET an inventory record by ID
-    @GetMapping("/{inventoryId}")
-    public ResponseEntity<InventoryDTO> getInventoryById(@PathVariable UUID inventoryId) {
-        Optional<Inventory> inventory = inventoryService.getInventoryById(inventoryId);
+    // GET /inventory/{id}: Get a specific inventory record by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<InventoryDto> getInventoryById(@PathVariable UUID id) {
+        Optional<InventoryDto> inventory = inventoryService.getInventoryById(id);
         if (inventory.isPresent()) {
-            return ResponseEntity.ok(inventoryConverter.convertToDTO(inventory.get())); // Use the converter
+            return new ResponseEntity<>(inventory.get(), HttpStatus.OK);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // POST a new inventory record
+    // POST /inventory: Create a new inventory record
     @PostMapping
-    public ResponseEntity<InventoryDTO> createInventory(@Valid @RequestBody InventoryDTO inventoryDTO) {
-        Inventory inventory = inventoryConverter.convertToEntity(inventoryDTO); // Use the converter
-        Inventory createdInventory = inventoryService.createInventory(inventory);
-        return new ResponseEntity<>(inventoryConverter.convertToDTO(createdInventory), HttpStatus.CREATED); // Use the converter
+    public ResponseEntity<InventoryDto> createInventory(@Valid @RequestBody InventoryCreateDto createInventoryDto) {
+        InventoryDto createdInventory = inventoryService.createInventory(createInventoryDto);
+        return new ResponseEntity<>(createdInventory, HttpStatus.CREATED);
     }
 
-    // PUT (complete update) an inventory record
-    @PutMapping("/{inventoryId}")
-    public ResponseEntity<InventoryDTO> updateInventory(@PathVariable UUID inventoryId, @Valid @RequestBody InventoryDTO inventoryDTO) {
-        if (!inventoryService.existsById(inventoryId)) {
-            return ResponseEntity.notFound().build();
+    // PUT /inventory/{id}: Update an existing inventory record
+    @PutMapping("/{id}")
+    public ResponseEntity<InventoryDto> updateInventory(@PathVariable UUID id, @Valid @RequestBody InventoryUpdateDto updateInventoryDto) {
+        InventoryDto updatedInventory = inventoryService.updateInventory(id, updateInventoryDto);
+        if (updatedInventory != null) {
+            return new ResponseEntity<>(updatedInventory, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Inventory inventory = inventoryConverter.convertToEntity(inventoryDTO); // Use the converter
-        inventory.setInventoryId(inventoryId); // Ensure the ID is set for updating
-        Inventory updatedInventory = inventoryService.updateInventory(inventoryId, inventory);
-        return ResponseEntity.ok(inventoryConverter.convertToDTO(updatedInventory)); // Use the converter
     }
 
-    // PATCH (partial update) an inventory record
-    @PatchMapping("/{inventoryId}")
-    public ResponseEntity<?> patchInventory(@PathVariable UUID inventoryId, @RequestBody InventoryUpdateDTO inventoryUpdateDTO) {
-        Optional<Inventory> existingInventory = inventoryService.getInventoryById(inventoryId);
-
-        if (existingInventory.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    // PATCH /inventory/{id}: Partially update an existing inventory record
+    // NOTE: this reuses the same DTO as the PUT method, but you could create a separate DTO if you want to allow partial updates of different fields
+    @PatchMapping("/{id}")
+    public ResponseEntity<InventoryDto> patchInventory(@PathVariable UUID id, @RequestBody InventoryUpdateDto updateInventoryDto) {
+        InventoryDto patchedInventory = inventoryService.patchInventory(id, updateInventoryDto);
+        if (patchedInventory != null) {
+            return new ResponseEntity<>(patchedInventory, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        Inventory inventoryToUpdate = existingInventory.get();
-
-        // Apply updates from the DTO
-        if (inventoryUpdateDTO.getQuantity() != null) {
-            inventoryToUpdate.setQuantity(inventoryUpdateDTO.getQuantity());
-        }
-        if (inventoryUpdateDTO.getReorderPoint() != null) {
-            inventoryToUpdate.setReorderPoint(inventoryUpdateDTO.getReorderPoint());
-        }
-        if (inventoryUpdateDTO.getReorderQuantity() != null) {
-            inventoryToUpdate.setReorderQuantity(inventoryUpdateDTO.getReorderQuantity());
-        }
-
-        Inventory updatedInventory = inventoryService.updateInventory(inventoryId, inventoryToUpdate);
-        return ResponseEntity.ok(inventoryConverter.convertToDTO(updatedInventory)); // Use the converter
     }
 
-    // DELETE an inventory record
-    @DeleteMapping("/{inventoryId}")
-    public ResponseEntity<Void> deleteInventory(@PathVariable UUID inventoryId) {
-        if (!inventoryService.existsById(inventoryId)) {
-            return ResponseEntity.notFound().build();
-        }
-        inventoryService.deleteInventory(inventoryId);
-        return ResponseEntity.noContent().build();
+    // DELETE /inventory/{id}: Delete an inventory record
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInventory(@PathVariable UUID id) {
+        inventoryService.deleteInventory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
