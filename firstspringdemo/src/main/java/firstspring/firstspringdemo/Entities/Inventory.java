@@ -41,6 +41,22 @@ public class Inventory {
     public void setInventoryId(UUID inventoryId) {
         this.inventoryId = inventoryId;
     }
+    public UUID getProductId() {
+        return product != null ? product.getProductId() : null; // Return the product ID if product is not null
+    }
+    public void setProductId(UUID productId) {
+        if (product != null) {
+            product.setProductId(productId); // Set the product ID if product is not null
+        }
+    }
+    public UUID getLocationId() {
+        return location != null ? location.getLocationId() : null; // Return the location ID if location is not null
+    }
+    public void setLocationId(UUID locationId) {
+        if (location != null) {
+            location.setLocationId(locationId); // Set the location ID if location is not null
+        }
+    }
     public Product getProduct() {
         return product;
     }
