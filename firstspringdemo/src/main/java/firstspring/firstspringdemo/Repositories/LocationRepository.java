@@ -10,5 +10,6 @@ public interface LocationRepository extends JpaRepository<Location, UUID> {
     // Custom query methods can be defined here if needed
     // For example, to find all products by a specific category:
     List<Location> findByCategory(String category);
+    List<Location> findByName(String name);
     
 }
