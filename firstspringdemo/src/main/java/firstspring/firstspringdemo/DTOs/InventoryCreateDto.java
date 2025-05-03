@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class InventoryCreateDto {
     private UUID productId;
-    private String locationId;
+    private UUID locationId;
     private Integer quantity;
     private Integer reorderPoint; // Optional
     private Integer reorderQuantity; // Optional
@@ -12,7 +12,7 @@ public class InventoryCreateDto {
     // Constructors (default, and with all fields)
     public InventoryCreateDto() {}
 
-    public InventoryCreateDto(UUID productId, String locationId, Integer quantity, Integer reorderPoint, Integer reorderQuantity) {
+    public InventoryCreateDto(UUID productId, UUID locationId, Integer quantity, Integer reorderPoint, Integer reorderQuantity) {
         this.productId = productId;
         this.locationId = locationId;
         this.quantity = quantity;
@@ -29,11 +29,11 @@ public class InventoryCreateDto {
         this.productId = productId;
     }
 
-    public String getLocationId() {
+    public UUID getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(String locationId) {
+    public void setLocationId(UUID locationId) {
         this.locationId = locationId;
     }
 

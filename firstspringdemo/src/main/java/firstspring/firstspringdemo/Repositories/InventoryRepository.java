@@ -10,4 +10,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
     // Custom query methods can be defined here if needed
     // For example, to find all inventory items for a specific product:
     List<Inventory> findByProductId(UUID productId);
+    List<Inventory> findByLocationId(UUID locationId);
+
 }

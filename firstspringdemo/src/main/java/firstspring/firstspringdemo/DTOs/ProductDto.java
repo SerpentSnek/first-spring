@@ -1,19 +1,21 @@
 package firstspring.firstspringdemo.DTOs;
 
+import java.util.UUID;
+
 public class ProductDto {
-    private Long id;
+    private UUID productId;
     private String name;
     private String description;
     private double price;
     private int quantity;
     private String imgUrl;
     private String locationId;
-
+    
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String name, String description, double price, int quantity) {
-        this.id = id;
+    public ProductDto(UUID id, String name, String description, double price, int quantity) {
+        this.productId = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -32,12 +34,12 @@ public class ProductDto {
     public void setLocationId(String locationId) {
         this.locationId = locationId;
     }
-    public Long getId() {
-        return id;
+    
+    public UUID getProductId() {
+        return productId;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
     public String getName() {

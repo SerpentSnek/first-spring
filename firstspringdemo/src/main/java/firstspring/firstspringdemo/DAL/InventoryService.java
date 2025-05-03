@@ -55,7 +55,7 @@ public class InventoryService {
     public InventoryDto createInventory(InventoryCreateDto createInventoryDto) {
         // 1.  Fetch the Product and Location entities using the ProductService and LocationService
         ProductDto productDto = productService.getProductById(createInventoryDto.getProductId()).orElse(null); //change
-        LocationDto locationDto = locationService.getLocationById(UUID.fromString(createInventoryDto.getLocationId())).orElse(null); //change
+        LocationDto locationDto = locationService.getLocationById(createInventoryDto.getLocationId()).orElse(null); //change
 
         if (productDto == null || locationDto == null) {
             // Handle the case where the Product or Location doesn't exist

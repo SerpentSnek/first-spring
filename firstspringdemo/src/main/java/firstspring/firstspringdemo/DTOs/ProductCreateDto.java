@@ -1,21 +1,23 @@
 package firstspring.firstspringdemo.DTOs;
 
+import java.util.UUID;
+
 public class ProductCreateDto {
     private String name;
     private String description;
     private double price;
     private int quantity;
-    private String locationId;
+    private UUID productId;
 
     public ProductCreateDto() {
     }
     
-    public ProductCreateDto(String name, String description, double price, int quantity, String locationId) {
+    public ProductCreateDto(String name, String description, double price, int quantity, UUID productId) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.locationId = locationId;
+        this.productId = productId;
     }
 
     public String getName() {
@@ -50,11 +52,10 @@ public class ProductCreateDto {
         this.quantity = quantity;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public UUID getProductId() {
+        return productId;
     }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 }
