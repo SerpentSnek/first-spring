@@ -23,7 +23,7 @@ public class Inventory {
     private Integer reorderPoint;
     private Integer reorderQuantity;
     private LocalDateTime lastStockUpdate;
-
+    
     public Inventory() {}
     
     public Inventory(Product product, Location location, Integer quantity, Integer reorderPoint, Integer reorderQuantity, LocalDateTime lastStockUpdate) {
@@ -40,14 +40,6 @@ public class Inventory {
     }
     public void setInventoryId(UUID inventoryId) {
         this.inventoryId = inventoryId;
-    }
-    public UUID getProductId() {
-        return product != null ? product.getProductId() : null; // Return the product ID if product is not null
-    }
-    public void setProductId(UUID productId) {
-        if (product != null) {
-            product.setProductId(productId); // Set the product ID if product is not null
-        }
     }
     public UUID getLocationId() {
         return location != null ? location.getLocationId() : null; // Return the location ID if location is not null

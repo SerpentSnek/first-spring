@@ -9,6 +9,10 @@ import firstspring.firstspringdemo.Entities.Inventory;
 @Mapper(componentModel = "spring") //Important:  Makes the mapper a Spring component for dependency injection
 public interface InventoryMapper {
 
+    // Map product.productId to dto.productId
+    @Mapping(source = "product.productId", target = "productId")
+    // Map location.locationId to dto.locationId
+    @Mapping(source = "location.locationId", target = "locationId")
     InventoryDto toDto(Inventory inventory);
 
     // add mappings to ignore the fields that are not in the DTO
