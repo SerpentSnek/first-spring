@@ -1,0 +1,8 @@
+{
+  "name": "First Spring Demo",
+  "short_name": "FirstSpring",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#2196F3"
+}
