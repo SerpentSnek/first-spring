@@ -18,13 +18,13 @@ FirstSpringDemo follows a **layered architecture** pattern with clear separation
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│              Flutter Mobile Client                       │
+│              Flutter Mobile Client                      │
 ├─────────────────────────────────────────────────────────┤
-│              REST API / GraphQL Gateway                  │
+│              REST API / GraphQL Gateway                 │
 ├─────────────────────────────────────────────────────────┤
 │  Controllers → Services (DAL) → Repositories → Database │
 ├─────────────────────────────────────────────────────────┤
-│           PostgreSQL Inventory Management DB             │
+│           PostgreSQL Inventory Management DB            │
 └─────────────────────────────────────────────────────────┘
 ```
 
