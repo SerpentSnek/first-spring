@@ -29,3 +29,8 @@ first-spring.code-workspace
 
 # Dart
 .dart_tool/
+
+# Local environment files
+.env
+.env.*
+!.env.example
