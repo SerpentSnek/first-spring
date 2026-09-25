@@ -142,7 +142,7 @@ psql -U postgres
 CREATE DATABASE firstspringdemodb;
 
 # Create a user (if not already created)
-CREATE USER serpentwyvern WITH PASSWORD 'HelionTokamak6891!!!';
+CREATE USER serpentwyvern WITH PASSWORD '<choose-a-local-password>';
 
 # Grant privileges
 ALTER ROLE serpentwyvern SET client_encoding TO 'utf8';
@@ -171,11 +171,15 @@ Edit `src/main/resources/application.properties`:
 spring.application.name=firstspringdemo
 spring.datasource.url=jdbc:postgresql://localhost:5432/firstspringdemodb?currentSchema=inventory_management,public
 spring.datasource.username=serpentwyvern
-spring.datasource.password=HelionTokamak6891!!!
+spring.datasource.password=${DB_PASSWORD:}
 spring.datasource.driver-class-name=org.postgresql.Driver
 ```
 
-**Important:** Update the password if you used a different one during database creation.
+Set the password in your terminal before starting the backend. Do not commit it to the repository:
+
+```powershell
+$env:DB_PASSWORD = '<your-local-password>'
+```
 
 ---
 
